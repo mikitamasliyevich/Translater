@@ -10,34 +10,27 @@ let words;
 localStorage.length < 1 ? words = [] : words = JSON.parse(localStorage.getItem('words'));
 let addWorldToTable = index => {
     table.innerHTML += `
-<tr>
-<td>${words[index].translate}</td> 
-<td>${words[index].russian} </td>
-<td><input type = "button" value = 'Delete' class='buttion' onclick = "remove(event)"></td>
-</tr>
-`
-}
-
-function remove(event) {
-    const but = document.getElementsByClassName('buttion')
-    but.forEach((element, n) => {
-        console.log(2);
-        element.addEventListener('click', (element, index) => {
-            // for (let key of but){
-            words.splice(element, 1)
-            localStorage.setItem('words', JSON.stringify(words));
-        })
-        event.target.parentElement.parentElement.remove()
-    }    )
-
-}
-
+    <tr>
+        <td>${words[index].translate}</td> 
+        <td>${words[index].russian}</td>
+        <td>
+            <input type = "button" value = 'Delete' class='buttion'>
+        </td>
+    </tr>`
+};
 
 words.forEach((element, i) => {
-
     addWorldToTable(i);
-})
+});
 
+const but = Array.from(document.getElementsByClassName('buttion'));
+but.forEach(element => {
+    element.addEventListener('click', element => {
+        words.splice(element, 1);
+        localStorage.setItem('words', JSON.stringify(words));
+        element.target.parentElement.parentElement.remove()
+    });
+});
 
 class CreateWord {
     constructor(translate, russian) {
@@ -64,4 +57,4 @@ saveButton.addEventListener('click', () => {
     words.push(new CreateWord(englishInput.value, russianInput.value));
     localStorage.setItem('words', JSON.stringify(words));
     addWorldToTable(words.length - 1)
-})
+});
